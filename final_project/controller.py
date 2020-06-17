@@ -13,7 +13,7 @@ class MyApp(QMainWindow):
         loadUi("hi.ui",self)
         
         
-        self.speed=125
+        self.speed=80
         self.state=False
         self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL')
         self.db.setHostName("3.34.124.67")
@@ -65,10 +65,12 @@ class MyApp(QMainWindow):
     def clickedGo(self):
         print("go")
         self.setValue(self.speed)
+        self.state=True
         self.commandQuery("go","1 sec")
     
     def clickedBack(self):
         print("back")
+        self.state=True
         self.setValue(self.speed)
         self.commandQuery("back","1 sec")
     
@@ -84,9 +86,10 @@ class MyApp(QMainWindow):
         self.commandQuery("speedUp","1 sec")
     
     def clickedStop(self):
-        print("Stop")
+        print("stop")
         self.setValue(0)
-        self.commandQuery("Stop","1 sec")
+        self.state=False
+        self.commandQuery("stop","1 sec")
         
     def clickedSpeedDown(self):
         print("speeeeed DOWN!!")

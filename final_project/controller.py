@@ -22,12 +22,7 @@ class MyThread(QThread):
                 
             self.mySignal.emit(self.start_value)
             sleep(100)
-    
-    def toggle(self):
-        self.wait_status=not self.wait_status
-        if self.wait_status:
-            self.start()
-            
+         
 
 class MyApp(QMainWindow):
     def __init__(self):

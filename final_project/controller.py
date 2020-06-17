@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.uic import *
 from PyQt5 import QtSql
 from PyQt5.QtCore import *
+from time import sleep
 
 class MyThread(QThread):
     mySignal = pyqtSignal(int)
@@ -19,7 +20,7 @@ class MyThread(QThread):
             elif self.progress==-1:
                 self.start_value-=1
                 
-            self.change_value.emit(self.start_value)
+            self.mySignal.emit(self.start_value)
             sleep(100)
     
     def toggle(self):

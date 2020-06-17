@@ -3,6 +3,7 @@
 from Raspi_MotorHAT import Raspi_MotorHAT, Raspi_DCMotor
 from PyQt5 import QtSql
 from PyQt5.QtCore import *
+from sense_hat import sense_hat
 import time
 
 
@@ -13,13 +14,43 @@ dcMotor.setSpeed(speed)
 
 servo = mh._pwm
 servo.setPWMFreq(60)
+sense=SenseHat()
+w=[150,150,150]
+b=[0,0,255]
+e=[0,0,0]
+image=[]
 
 
 def go():
+    global image
+    global sense
+    image = [
+        e, e, e, b, e, e, e, e,
+        e, e, e, b, e, e, e, e,
+        e, e, e, b, e, e, e, e,
+        e, e, e, b, e, e, e, e,
+        e, e, e, b, e, e, e, e,
+        e, b, b, b, b, b, e, e,
+        e, e, b, b, b, e, e, e,
+        e, e, e, b, e, e, e, e
+    ]
+    sense.set_pixels(image)
     dcMotor.run(Raspi_MotorHAT.FORWARD)
 
 
 def back():
+    global image
+    global sense
+    image = [
+        e, e, e, e, b, e, e, e,
+        e, e, e, b, b, b, e, e,
+        e, e, b, b, b, b, b, e,
+        e, e, e, e, b, e, e, e,
+        e, e, e, e, b, e, e, e,
+        e, e, e, e, b, e, e, e,
+        e, e, e, e, b, e, e, e,
+        e, e, e, e, b, e, e, e
+    ]
     dcMotor.run(Raspi_MotorHAT.BACKWARD)
 
 
@@ -49,10 +80,36 @@ def steer(angle=0):
 
 
 def steer_right():
+    global image
+    global sense
+    image = [
+            e, e, e, e, e, e, e, e,
+            e, e, e, e, e, e, e, e,
+            e, e, b, e, e, e, e, e,
+            e, b, b, e, e, e, e, e,
+            b, b, b, b, b, b, b, b,
+            e, b, b, e, e, e, e, e,
+            e, e, b, e, e, e, e, e,
+            e, e, e, e, e, e, e, e
+    ]
+    sense.set_pixels(image)
     steer(30)
 
 
 def steer_left():
+    global image
+    global sense
+    image = [
+        e, e, e, e, e, e, e, e,
+        e, e, e, e, e, e, e, e,
+        e, e, e, e, e, b, e, e,
+        e, e, e, e, e, b, b, e,
+        b, b, b, b, b, b, b, b,
+        e, e, e, e, e, b, b, e,
+        e, e, e, e, e, b, e, e,
+        e, e, e, e, e, e, e, e
+    ]
+    sense.set_pixels(image)
     steer(-30)
 
 

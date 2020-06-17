@@ -96,21 +96,26 @@ class MyApp(QMainWindow):
         
     def clickedSpeedUp(self):
         print("speeeeed UP!!")
+        self.toggle()
         self.commandQuery("speedUp","1 sec")
     
     def clickedStop(self):
         print("Stop")
+        self.toggle()
         self.commandQuery("Stop","1 sec")
         
     def clickedSpeedDown(self):
         print("speeeeed DOWN!!")
+        self.toggle()
         self.commandQuery("speedDown","1 sec")
     
     def releaseSpeedDown(self):
+        self.toggle()
         print("release speed down")
         
         
     def releaseSpeedUp(self):
+        self.toggle()
         print("release speed Up")
         
         

@@ -7,13 +7,12 @@ from sense_hat import sense_hat
 from time import sleep
 from pyowm import OWM
 
-self.owm=OWM("22f81e736830f16039f7dbf55aeec7f7")
-obs = owm.weather_at_place('Seoul') 
-
-obs = owm.weather_at_coords(37.654, 127.060)
+owm=OWM("22f81e736830f16039f7dbf55aeec7f7")
+mgr=owm.weather_manager()
+obs=mgr.weather_at_place('Seoul')
 mh = Raspi_MotorHAT(addr=0x6f)
 dcMotor = mh.getMotor(3)    
-speed = 125 
+speed = 80 
 dcMotor.setSpeed(speed)
 
 servo = mh._pwm
@@ -74,10 +73,10 @@ def stop():
     ]
     sense.set_pixels(image)
     dcMotor.run(Raspi_MotorHAT.RELEASE)
-    sleep(2)
+    sleep(4)
     global obs
-    weather = obs.get_weather()
-    sense.show_message(weater.get_status(),text_colour=(0, 0, 255))
+    today_weather = obs.weather
+    sense.show_message(today_weather.status,text_colour=(0, 0, 255))
     sleep(2)
 
 
@@ -172,7 +171,7 @@ class pollingThread(QThread):
         
     def pollingQuery(self):
         while True:
-            sleep(3)
+            sleep(0.5)
             self.query=QtSql.QSqlQuery("select * from command2 where is_finish = 0 order by time asc limit 1",db=self.db)
             self.query.next()
             self.record=self.query.record()
@@ -206,7 +205,7 @@ class sensingThread(QThread):
     
     def commandQuery(self):
         while True:
-            sleep(3)
+            sleep(10)
             pressure=self.sense.get_pressure()
             temp=self.sense.get_temperature()
             humidity=self.sense.get_humidity()

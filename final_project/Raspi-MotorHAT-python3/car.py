@@ -14,7 +14,7 @@ dcMotor.setSpeed(speed)
 
 servo = mh._pwm
 servo.setPWMFreq(60)
-sense=SenseHat()
+sense=sense_hat.SenseHat()
 w=[150,150,150]
 b=[0,0,255]
 e=[0,0,0]
@@ -51,10 +51,24 @@ def back():
         e, e, e, e, b, e, e, e,
         e, e, e, e, b, e, e, e
     ]
+    sense.set_pixels(image)
     dcMotor.run(Raspi_MotorHAT.BACKWARD)
 
 
 def stop():
+    global image
+    global sense
+    image = [
+            e, e, e, b, b, e, e, e,
+            e, e, b, e, e, b, e, e,
+            e, b, e, e, e, e, b, e,
+            b, b, b, b, b, b, b, b,
+            b, b, b, b, b, b, b, b,
+            e, b, e, e, e, e, b, e,
+            e, e, b, e, e, b, e, e,
+            e, e, e, b, b, e, e, e
+    ]
+    sense.set_pixels(image)
     dcMotor.run(Raspi_MotorHAT.RELEASE)
 
 
@@ -136,7 +150,7 @@ class pollingThread(QThread):
         
     def pollingQuery(self):
         while True:
-            time.sleep(0.1)
+            time.sleep(3)
             self.query=QtSql.QSqlQuery("select * from command2 where is_finish = 0 order by time asc limit 1")
             self.query.next()
             self.record=self.query.record()
@@ -152,12 +166,51 @@ class pollingThread(QThread):
         str='update command2 set is_finish = 1 where time = "%s" and cmd_string = "%s" and is_finish = 0'%(self.record.value(0).toString('yyyy-MM-dd hh:mm:ss'), cmd)
         self.query.prepare(str);
         self.query.exec()
+        
+class sensingThread(QThread):
+    def __init__(self):
+        super().__init__()
+        self.sense=sense_hat.SenseHat()
+    
+    def run(self):
+        self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL')
+        self.db.setHostName("3.34.124.67")
+        self.db.setDatabaseName("15_8")
+        self.db.setUserName("15_8")
+        self.db.setPassword("1234")
+        self.ok=self.db.open()
+        print(self.ok)
+        self.commandQuery()
+    
+    def commandQuery(self):
+        while True:
+            time.sleep(3)
+            pressure=self.sense.get_pressure()
+            temp=self.sense.get_temperautre()
+            humidity=self.sense.get_humidity()
+            
+            pressure=round(pressure,2)
+            temp=round(temp,2)
+            humidity=round(humidity,2)
+            self.query=QtSql.QSqlQuery()
+            str="insert into sensing2 (time,num1,num2,num3, meta_string, is_finish) values (:time, :num1, :num2, :num3, :meta, :finish)"
+            self.query.prepare(str);
+            time=QDateTime().currentDateTime()
+            self.query.bindValue(":time",time)
+            self.query.bindValue(":num1",pressure)
+            self.query.bindValue(":num2",temp)
+            self.query.bindValue(":num3",humidity)
+            self.query.bindValue(":meta","")
+            self.query.bindValue(":finish",0)
+            self.query.exec()
 
 
 def main():
     
     
     try:
+        th2=sensingThread()
+        th2.start()
         th=pollingThread()
         th.start()
             

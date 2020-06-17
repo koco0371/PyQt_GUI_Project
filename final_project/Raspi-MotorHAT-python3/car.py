@@ -5,8 +5,12 @@ from PyQt5 import QtSql
 from PyQt5.QtCore import *
 from sense_hat import sense_hat
 from time import sleep
+from pyowm import OWM
 
+self.owm=OWM("22f81e736830f16039f7dbf55aeec7f7")
+obs = owm.weather_at_place('Seoul') 
 
+obs = owm.weather_at_coords(37.654, 127.060)
 mh = Raspi_MotorHAT(addr=0x6f)
 dcMotor = mh.getMotor(3)    
 speed = 125 
@@ -70,6 +74,11 @@ def stop():
     ]
     sense.set_pixels(image)
     dcMotor.run(Raspi_MotorHAT.RELEASE)
+    sleep(2)
+    global obs
+    weather = obs.get_weather()
+    sense.show_message(weater.get_status(),text_colour=(255, 255, 0))
+    sleep(2)
 
 
 def speedUp():

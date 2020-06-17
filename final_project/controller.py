@@ -12,7 +12,7 @@ class MyApp(QMainWindow):
         self.db.setHostName("3.34.124.67")
         self.db.setDatabaseName("15_8")
         self.db.setUserName("15_8")
-        #self.db.setPassword("???")
+        self.db.setPassword("1234")
         self.ok=self.db.open()
         print(self.ok)
         
@@ -55,8 +55,8 @@ class MyApp(QMainWindow):
         self.commandQuery("back","1 sec")
     
     def clickedMid(self):
-        print("mid")
-        self.commandQuery("mid", "1 sec")
+        print("center")
+        self.commandQuery("center", "1 sec")
         
         
 app=QApplication([])

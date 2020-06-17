@@ -4,24 +4,6 @@ from PyQt5 import QtSql
 from PyQt5.QtCore import *
 from time import sleep
 
-class MyThread(QThread):
-    mySignal = pyqtSignal(int)
-    def __init__(self):
-        super().__init__()
-        self.isRun=False
-        self.start_value=125
-        self.progress=0
-        
-    def run(self):
-        while self.isRun:
-            if self.progress==1:
-                self.start_value+=1
-            
-            elif self.progress==-1:
-                self.start_value-=1
-                
-            self.mySignal.emit(self.start_value)
-            sleep(100)
          
 
 class MyApp(QMainWindow):
@@ -29,15 +11,16 @@ class MyApp(QMainWindow):
         super().__init__()
         loadUi("hi.ui",self)
         
-        self.th=MyThread()
-        self.th.mySignal.connect(self.setValue)
+        
         self.speed=125
+        self.state=False
         self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL')
         self.db.setHostName("3.34.124.67")
         self.db.setDatabaseName("15_8")
         self.db.setUserName("15_8")
         self.db.setPassword("1234")
         self.ok=self.db.open()
+        self.setValue(0)
         print(self.ok)
         
         self.timer=QTimer()
@@ -80,10 +63,12 @@ class MyApp(QMainWindow):
     
     def clickedGo(self):
         print("go")
+        self.setValue(self.speed)
         self.commandQuery("go","1 sec")
     
     def clickedBack(self):
         print("back")
+        self.setValue(self.speed)
         self.commandQuery("back","1 sec")
     
     def clickedMid(self):
@@ -92,40 +77,28 @@ class MyApp(QMainWindow):
         
     def clickedSpeedUp(self):
         print("speeeeed UP!!")
-        self.toggle()
+        self.speed+=20
+        if self.state:
+            self.setValue(self.speed)
         self.commandQuery("speedUp","1 sec")
     
     def clickedStop(self):
         print("Stop")
-        self.toggle()
+        self.setValue(0)
         self.commandQuery("Stop","1 sec")
         
     def clickedSpeedDown(self):
         print("speeeeed DOWN!!")
-        self.toggle()
+        self.speed-=20
+        if self.state:
+            self.setValue(self.speed)
         self.commandQuery("speedDown","1 sec")
-    
-    def releaseSpeedDown(self):
-        self.toggle()
-        print("release speed down")
-        
-        
-    def releaseSpeedUp(self):
-        self.toggle()
-        print("release speed Up")
         
         
     def setValue(self,i):
         self.speedBar.setValue(i)
     
-    def toggle(self):
-        if self.th.isRun==False:
-            self.th.isRun=True
-            self.th.progress=-self.th.progress
-            self.th.start()
-        else:
-            self.th.isRun=False
-            self.th.progress=0
+    
         
         
 app=QApplication([])

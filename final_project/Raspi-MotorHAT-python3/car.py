@@ -203,7 +203,7 @@ class sensingThread(QThread):
             humidity=round(humidity,2)
             self.query=QtSql.QSqlQuery("select * from sensing2",db=self.db)
             str="insert into sensing2 (time,num1,num2,num3, meta_string, is_finish) values (:time, :num1, :num2, :num3, :meta, :finish)"
-            self.query.prepare(str);
+            self.query.prepare(str)
             time=QDateTime().currentDateTime()
             self.query.bindValue(":time",time)
             self.query.bindValue(":num1",pressure)

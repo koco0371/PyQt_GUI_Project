@@ -77,7 +77,7 @@ def stop():
     sleep(2)
     global obs
     weather = obs.get_weather()
-    sense.show_message(weater.get_status(),text_colour=(255, 255, 0))
+    sense.show_message(weater.get_status(),text_colour=(0, 0, 255))
     sleep(2)
 
 
@@ -137,6 +137,19 @@ def steer_left():
 
 
 def steer_center():
+    global image
+    global sense
+    image = [
+        e, e, e, b, e, e, e, e,
+        e, e, e, b, e, e, e, e,
+        e, e, e, b, e, e, e, e,
+        e, e, e, b, e, e, e, e,
+        e, e, e, b, e, e, e, e,
+        e, b, b, b, b, b, e, e,
+        e, e, b, b, b, e, e, e,
+        e, e, e, b, e, e, e, e
+    ]
+    sense.set_pixels(image)
     steer(0)
     
 

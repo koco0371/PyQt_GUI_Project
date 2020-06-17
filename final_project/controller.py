@@ -3,11 +3,39 @@ from PyQt5.uic import *
 from PyQt5 import QtSql
 from PyQt5.QtCore import *
 
+class MyThread(QThread):
+    mySignal = pyqtSignal(int)
+    def __init__(self):
+        super().__init__()
+        self.isRun=False
+        self.start_value=125
+        self.progress=0
+        
+    def run(self):
+        while self.isRun:
+            if self.progress==1:
+                self.start_value+=1
+            
+            elif self.progress==-1:
+                self.start_value-=1
+                
+            self.change_value.emit(self.start_value)
+            sleep(100)
+    
+    def toggle(self):
+        self.wait_status=not self.wait_status
+        if self.wait_status:
+            self.start()
+            
+
 class MyApp(QMainWindow):
     def __init__(self):
         super().__init__()
         loadUi("hi.ui",self)
         
+        self.th=MyThread()
+        self.th.mySignal.connect(self.setValue)
+        self.speed=125
         self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL')
         self.db.setHostName("3.34.124.67")
         self.db.setDatabaseName("15_8")
@@ -28,6 +56,14 @@ class MyApp(QMainWindow):
             self.record=self.query.record()
             str="%s | %10s | %10s | %4d" % (self.record.value(0).toString(),self.record.value(1), self.record.value(2),self.record.value(3))
             self.text.appendPlainText(str)
+            
+        self. query=QtSql.QSqlQuery("select * from sensing2 order by time desc limit 15")
+        str=""
+        while (self.query.next()) :
+            self.record=self.query.record()
+            str+="%s | %10s | %10s | %10s \n"%(self.record.value(0).toString(),self.record.value(1), self.record.value(2), self.record.value(3))
+        
+        self.text2.setPlainText(str)
             
     def commandQuery(self,cmd,arg):
         self.query.prepare("insert into command2 (time, cmd_string, arg_string, is_finish) values (:time, :cmd, :arg, :finish)");
@@ -57,6 +93,38 @@ class MyApp(QMainWindow):
     def clickedMid(self):
         print("center")
         self.commandQuery("center", "1 sec")
+        
+    def clickedSpeedUp(self):
+        print("speeeeed UP!!")
+        self.commandQuery("speedUp","1 sec")
+    
+    def clickedStop(self):
+        print("Stop")
+        self.commandQuery("Stop","1 sec")
+        
+    def clickedSpeedDown(self):
+        print("speeeeed DOWN!!")
+        self.commandQuery("speedDown","1 sec")
+    
+    def releaseSpeedDown(self):
+        print("release speed down")
+        
+        
+    def releaseSpeedUp(self):
+        print("release speed Up")
+        
+        
+    def setValue(self,i):
+        self.speedBar.setValue(i)
+    
+    def toggle(self):
+        if self.th.isRun==False:
+            self.th.isRun=True
+            self.th.progress=-self.th.progress
+            self.th.start()
+        else:
+            self.th.isRun=False
+            self.th.progress=0
         
         
 app=QApplication([])

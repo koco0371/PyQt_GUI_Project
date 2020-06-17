@@ -4,7 +4,7 @@ from Raspi_MotorHAT import Raspi_MotorHAT, Raspi_DCMotor
 from PyQt5 import QtSql
 from PyQt5.QtCore import *
 from sense_hat import sense_hat
-import time
+from time import sleep
 
 
 mh = Raspi_MotorHAT(addr=0x6f)
@@ -139,7 +139,7 @@ class pollingThread(QThread):
         super().__init__()
     
     def run(self):
-        self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL','command2')
+        self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL','commandDB')
         self.db.setHostName("3.34.124.67")
         self.db.setDatabaseName("15_8")
         self.db.setUserName("15_8")
@@ -150,15 +150,15 @@ class pollingThread(QThread):
         
     def pollingQuery(self):
         while True:
-            time.sleep(3)
-            self.query=QtSql.QSqlQuery("select * from command2 where is_finish = 0 order by time asc limit 1")
+            sleep(3)
+            self.query=QtSql.QSqlQuery("select * from command2 where is_finish = 0 order by time asc limit 1",db=self.db)
             self.query.next()
             self.record=self.query.record()
             str="%s | %10s | %10s | %4d" % (self.record.value(0).toString(),self.record.value(1), self.record.value(2),self.record.value(3))
-            print(str)
             global command
             global func
             if self.record.value(1) in command:
+                print(str)
                 func[command.index(self.record.value(1))] ()
                 self.commandQuery(self.record.value(1),self.record.value(0))
 
@@ -173,7 +173,7 @@ class sensingThread(QThread):
         self.sense=sense_hat.SenseHat()
     
     def run(self):
-        self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL','sensing2')
+        self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL','senseDB')
         self.db.setHostName("3.34.124.67")
         self.db.setDatabaseName("15_8")
         self.db.setUserName("15_8")
@@ -184,15 +184,15 @@ class sensingThread(QThread):
     
     def commandQuery(self):
         while True:
-            time.sleep(3)
+            sleep(3)
             pressure=self.sense.get_pressure()
-            temp=self.sense.get_temperautre()
+            temp=self.sense.get_temperature()
             humidity=self.sense.get_humidity()
             
             pressure=round(pressure,2)
             temp=round(temp,2)
             humidity=round(humidity,2)
-            self.query=QtSql.QSqlQuery()
+            self.query=QtSql.QSqlQuery("select * from sensing2",db=self.db)
             str="insert into sensing2 (time,num1,num2,num3, meta_string, is_finish) values (:time, :num1, :num2, :num3, :meta, :finish)"
             self.query.prepare(str);
             time=QDateTime().currentDateTime()

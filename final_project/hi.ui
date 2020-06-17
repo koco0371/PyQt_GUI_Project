@@ -17,7 +17,7 @@
    <widget class="QPushButton" name="btn_go">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>170</x>
       <y>390</y>
       <width>99</width>
       <height>30</height>
@@ -30,7 +30,7 @@
    <widget class="QPushButton" name="btn_mid">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>170</x>
       <y>440</y>
       <width>99</width>
       <height>30</height>
@@ -43,7 +43,7 @@
    <widget class="QPushButton" name="btn_right">
     <property name="geometry">
      <rect>
-      <x>400</x>
+      <x>290</x>
       <y>440</y>
       <width>99</width>
       <height>30</height>
@@ -56,7 +56,7 @@
    <widget class="QPushButton" name="btn_left">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>50</x>
       <y>440</y>
       <width>99</width>
       <height>30</height>
@@ -69,7 +69,7 @@
    <widget class="QPushButton" name="btn_back">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>170</x>
       <y>490</y>
       <width>99</width>
       <height>30</height>
@@ -82,11 +82,117 @@
    <widget class="QPlainTextEdit" name="text">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>10</y>
-      <width>731</width>
-      <height>351</height>
+      <x>20</x>
+      <y>30</y>
+      <width>391</width>
+      <height>341</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>0</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Command Log</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="text2">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>30</y>
+      <width>341</width>
+      <height>341</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>0</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sensing Data</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_spdUp">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>450</y>
+      <width>99</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Speeeeeed 
+UP</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_stop">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>470</y>
+      <width>99</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_spdDown">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>450</y>
+      <width>99</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Speeeeeed 
+ DOWN</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="speedBar">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>410</y>
+      <width>291</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+    <property name="value">
+     <number>125</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>380</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Speed</string>
     </property>
    </widget>
   </widget>
@@ -111,8 +217,8 @@
    <slot>clickedGo()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>329</x>
-     <y>437</y>
+     <x>268</x>
+     <y>447</y>
     </hint>
     <hint type="destinationlabel">
      <x>522</x>
@@ -127,8 +233,8 @@
    <slot>clickedRight()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>465</x>
-     <y>471</y>
+     <x>388</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
      <x>573</x>
@@ -143,8 +249,8 @@
    <slot>clickedLeft()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>234</x>
-     <y>475</y>
+     <x>148</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
      <x>49</x>
@@ -159,8 +265,8 @@
    <slot>clickedMid()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>364</x>
-     <y>474</y>
+     <x>268</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel">
      <x>559</x>
@@ -175,12 +281,124 @@
    <slot>clickedBack()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>317</x>
-     <y>530</y>
+     <x>268</x>
+     <y>547</y>
     </hint>
     <hint type="destinationlabel">
      <x>478</x>
      <y>558</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_spdUp</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clickedSpeedUp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>497</x>
+     <y>525</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>414</x>
+     <y>435</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_spdDown</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clickedSpeedDown()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>746</x>
+     <y>521</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>713</x>
+     <y>403</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_stop</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clickedStop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>622</x>
+     <y>527</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>600</x>
+     <y>427</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_spdUp</sender>
+   <signal>pressed()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clickedSpeedUp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>464</x>
+     <y>514</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>382</x>
+     <y>531</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_spdUp</sender>
+   <signal>released()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>releaseSpeedUp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>461</x>
+     <y>495</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>408</x>
+     <y>495</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_spdDown</sender>
+   <signal>pressed()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clickedSpeedDown()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>709</x>
+     <y>515</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>665</x>
+     <y>536</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_spdDown</sender>
+   <signal>released()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>releaseSpeedDown()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>703</x>
+     <y>508</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>679</x>
+     <y>561</y>
     </hint>
    </hints>
   </connection>
@@ -191,5 +409,10 @@
   <slot>clickedLeft()</slot>
   <slot>clickedRight()</slot>
   <slot>clickedBack()</slot>
+  <slot>clickedSpeedUp()</slot>
+  <slot>clickedStop()</slot>
+  <slot>clickedSpeedDown()</slot>
+  <slot>releaseSpeedUp()</slot>
+  <slot>releaseSpeedDown()</slot>
  </slots>
 </ui>

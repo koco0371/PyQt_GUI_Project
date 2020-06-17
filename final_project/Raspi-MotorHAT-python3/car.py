@@ -139,7 +139,7 @@ class pollingThread(QThread):
         super().__init__()
     
     def run(self):
-        self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL')
+        self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL','command2')
         self.db.setHostName("3.34.124.67")
         self.db.setDatabaseName("15_8")
         self.db.setUserName("15_8")
@@ -173,7 +173,7 @@ class sensingThread(QThread):
         self.sense=sense_hat.SenseHat()
     
     def run(self):
-        self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL')
+        self.db=QtSql.QSqlDatabase.addDatabase('QMYSQL','sensing2')
         self.db.setHostName("3.34.124.67")
         self.db.setDatabaseName("15_8")
         self.db.setUserName("15_8")
